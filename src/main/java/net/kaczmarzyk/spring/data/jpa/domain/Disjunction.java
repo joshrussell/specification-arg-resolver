@@ -22,9 +22,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
+import java.util.List;
 
 /**
  * Helper for easier joining lists of specs with {@code OR} operator
@@ -37,6 +38,12 @@ public class Disjunction<T> implements Specification<T> {
 
     public void addInnerSpecs(Specification<T> specification){
         this.innerSpecs.add(specification);
+    }
+
+    public void removeInnerSpecs(Integer index){
+        List<Specification<T>> specificationList = new ArrayList<>(this.innerSpecs);
+        Specification<T> specification = specificationList.get(index);
+        this.innerSpecs.remove(specification);
     }
 
     @SafeVarargs
@@ -59,6 +66,10 @@ public class Disjunction<T> implements Specification<T> {
             }
         }
         return combinedSpecs.toPredicate(root, query, cb);
+    }
+
+    public Collection<Specification<T>> getInnerSpecs() {
+        return innerSpecs;
     }
 
     @Override
