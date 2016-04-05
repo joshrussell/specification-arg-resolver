@@ -15,18 +15,18 @@
  */
 package net.kaczmarzyk;
 
-import static net.kaczmarzyk.spring.data.jpa.CustomerBuilder.customer;
-import static net.kaczmarzyk.spring.data.jpa.Gender.FEMALE;
-import static net.kaczmarzyk.spring.data.jpa.Gender.MALE;
 import net.kaczmarzyk.spring.data.jpa.Customer;
 import net.kaczmarzyk.spring.data.jpa.IntegrationTestBase;
-
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static net.kaczmarzyk.spring.data.jpa.CustomerBuilder.customer;
+import static net.kaczmarzyk.spring.data.jpa.Gender.FEMALE;
+import static net.kaczmarzyk.spring.data.jpa.Gender.MALE;
 
 
 @WebAppConfiguration
@@ -48,13 +48,13 @@ public abstract class E2eTestBase extends IntegrationTestBase {
 	
     @Before
     public void initialize() {
-        homerSimpson = customer("Homer", "Simpson").nickName("Homie").registrationDate(2014, 03, 15).gender(MALE).street("Evergreen Terrace").build(em);
-        margeSimpson = customer("Marge", "Simpson").registrationDate(2014, 03, 20).gender(FEMALE).street("Evergreen Terrace").build(em);
-        bartSimpson = customer("Bart", "Simpson").nickName("El Barto").registrationDate(2014, 03, 25).gender(MALE).street("Evergreen Terrace").build(em);
+        homerSimpson = customer("Homer", "Simpson").nickName("Homie").registrationDate(2014, 03, 15).gender(MALE).street("Evergreen Terrace").events("ISPS 1").build(em);
+        margeSimpson = customer("Marge", "Simpson").registrationDate(2014, 03, 20).gender(FEMALE).street("Evergreen Terrace").events("ISPS 1").build(em);
+        bartSimpson = customer("Bart", "Simpson").nickName("El Barto").registrationDate(2014, 03, 25).gender(MALE).street("Evergreen Terrace").events("ISPS 1").build(em);
         lisaSimpson = customer("Lisa", "Simpson").registrationDate(2014, 03, 30).gender(FEMALE).street("Evergreen Terrace").build(em);
-        maggieSimpson = customer("Maggie", "Simpson").registrationDate(2014, 03, 31).gender(FEMALE).street("Evergreen Terrace").build(em);
+        maggieSimpson = customer("Maggie", "Simpson").registrationDate(2014, 03, 31).gender(FEMALE).street("Evergreen Terrace").events("ISPS 1").build(em);
         moeSzyslak = customer("Moe", "Szyslak").registrationDate(2014, 03, 15).gender(MALE).street("Unknown").build(em);
-        nedFlanders = customer("Ned", "Flanders").golden().nickName("Flanders").registrationDate(2014, 03, 25).gender(MALE).street("Evergreen Terrace").build(em);
+        nedFlanders = customer("Ned", "Flanders").golden().nickName("Flanders").registrationDate(2014, 03, 25).gender(MALE).street("Evergreen Terrace").events("ISPS 2").build(em);
         
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }

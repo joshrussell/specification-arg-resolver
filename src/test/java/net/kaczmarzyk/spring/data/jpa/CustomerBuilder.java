@@ -15,9 +15,8 @@
  */
 package net.kaczmarzyk.spring.data.jpa;
 
-import java.util.Calendar;
-
 import javax.persistence.EntityManager;
+import java.util.Calendar;
 
 /**
  * Helper class for building test data
@@ -74,6 +73,13 @@ public class CustomerBuilder {
     public CustomerBuilder orders(String... orderItems) {
         for (String orderItem : orderItems) {
             new Order(customer, orderItem);
+        }
+        return this;
+    }
+
+    public CustomerBuilder events(String... eventItems){
+        for (String eventItem: eventItems){
+            new Event(customer, eventItem);
         }
         return this;
     }
