@@ -3,7 +3,7 @@ package net.kaczmarzyk.spring.data.jpa.utils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.Collection;
+import java.util.*;
 
 public class CollectionSpecificationGenerator<P, C> {
 
@@ -19,14 +19,26 @@ public class CollectionSpecificationGenerator<P, C> {
         this.collectionClass = collectionClass;
     }
 
+    @SuppressWarnings("unchecked")
+    private Path getCollectionParentPath(Path root, String path) {
+        List<String> pathElements = new LinkedList<>(Arrays.asList(path.split("\\.")));
+        String collectionPath = pathElements.get(pathElements.size() - 1);
+        pathElements.remove(pathElements.size() - 1);
+        Path<?> retVal = root;
+        for (String pathEl : pathElements) {
+            retVal = (Path) retVal.get(pathEl);
+        }
+        return retVal.get(collectionPath);
+    }
+
     public Specification equal(final String propertyName, final String value) {
         return new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                 query.distinct(true);
-                Root<P> parent = root;
+//                Root<P> parent = root;
                 Root<C> collection = query.from(collectionClass);
-                Expression<Collection<C>> collectionExpression = parent.get(collectionPropertyName);
+                Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
                 return cb.and(cb.equal(collection.get(propertyName), value), cb.isMember(collection, collectionExpression));
             }
         };
@@ -39,8 +51,21 @@ public class CollectionSpecificationGenerator<P, C> {
                 query.distinct(true);
                 Root<P> parent = root;
                 Root<C> collection = query.from(collectionClass);
-                Expression<Collection<C>> collectionExpression = parent.get(collectionPropertyName);
+                Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
                 return cb.and(cb.like(collection.<String>get(propertyName), value), cb.isMember(collection, collectionExpression));
+            }
+        };
+    }
+
+    public Specification in(final String propertyName, final List<String> value) {
+        return new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
+                query.distinct(true);
+                Root<P> parent = root;
+                Root<C> collection = query.from(collectionClass);
+                Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
+                return cb.and(collection.get(propertyName).in(value), cb.isMember(collection, collectionExpression));
             }
         };
     }
