@@ -39,7 +39,7 @@ public class CollectionSpecificationGenerator<P, C> {
 //                Root<P> parent = root;
                 Root<C> collection = query.from(collectionClass);
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
-                return cb.and(cb.equal(collection.get(propertyName), value), cb.isMember(collection, collectionExpression));
+                return cb.and(cb.equal(getCollectionParentPath(collection, propertyName), value), cb.isMember(collection, collectionExpression));
             }
         };
     }
@@ -52,7 +52,7 @@ public class CollectionSpecificationGenerator<P, C> {
                 Root<P> parent = root;
                 Root<C> collection = query.from(collectionClass);
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
-                return cb.and(cb.like(collection.<String>get(propertyName), value), cb.isMember(collection, collectionExpression));
+                return cb.and(cb.like(getCollectionParentPath(collection, propertyName), value), cb.isMember(collection, collectionExpression));
             }
         };
     }
@@ -65,7 +65,7 @@ public class CollectionSpecificationGenerator<P, C> {
                 Root<P> parent = root;
                 Root<C> collection = query.from(collectionClass);
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
-                return cb.and(collection.get(propertyName).in(value), cb.isMember(collection, collectionExpression));
+                return cb.and(getCollectionParentPath(collection, propertyName).in(value), cb.isMember(collection, collectionExpression));
             }
         };
     }
