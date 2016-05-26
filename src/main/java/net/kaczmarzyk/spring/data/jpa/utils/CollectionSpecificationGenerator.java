@@ -44,6 +44,19 @@ public class CollectionSpecificationGenerator<P, C> {
         };
     }
 
+    public Specification notEqual(final String propertyName, final String value) {
+        return new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
+                query.distinct(true);
+//                Root<P> parent = root;
+                Root<C> collection = query.from(collectionClass);
+                Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
+                return cb.and(cb.notEqual(getCollectionParentPath(collection, propertyName), value), cb.isMember(collection, collectionExpression));
+            }
+        };
+    }
+
     public Specification like(final String propertyName, final String value) {
         return new Specification() {
             @Override

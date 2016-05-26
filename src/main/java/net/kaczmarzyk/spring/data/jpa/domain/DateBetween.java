@@ -15,13 +15,12 @@
  */
 package net.kaczmarzyk.spring.data.jpa.domain;
 
-import java.text.ParseException;
-import java.util.Date;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.ParseException;
+import java.util.Date;
 
 
 /**
@@ -33,6 +32,8 @@ public class DateBetween<T> extends DateSpecification<T> {
 
     private Date after;
     private Date before;
+
+    public DateBetween(){}
     
     public DateBetween(String path, String... args) throws ParseException {
         this(path, args, null);
@@ -47,6 +48,22 @@ public class DateBetween<T> extends DateSpecification<T> {
         String beforeDateStr = args[1];
         this.after = converter.convertToDate(afterDateStr);
         this.before = converter.convertToDate(beforeDateStr);
+    }
+
+    public Date getAfter() {
+        return after;
+    }
+
+    public void setAfter(Date after) {
+        this.after = after;
+    }
+
+    public Date getBefore() {
+        return before;
+    }
+
+    public void setBefore(Date before) {
+        this.before = before;
     }
 
     @Override

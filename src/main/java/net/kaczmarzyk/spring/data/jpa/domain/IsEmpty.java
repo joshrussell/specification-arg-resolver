@@ -23,12 +23,14 @@ import java.util.Collection;
 
 /**
  * <p>Filers with "is empty" where clause (e.g. {@code where nickName is empty}).</p>
- *
  * <p>Does not require any http-parameters to be present, i.e. represents constant part of the query.</p>
  *
  * @author Tomasz Kaczmarzyk
  */
 public class IsEmpty<T> extends PathSpecification<T> implements ZeroArgSpecification {
+
+    public IsEmpty() {
+    }
 
     public IsEmpty(String path, String[] args) {
         super(path);

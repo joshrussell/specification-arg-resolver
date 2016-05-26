@@ -15,10 +15,10 @@
  */
 package net.kaczmarzyk.spring.data.jpa.domain;
 
+import org.springframework.data.jpa.domain.Specification;
+
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-
-import org.springframework.data.jpa.domain.Specification;
 
 
 /**
@@ -28,10 +28,20 @@ public abstract class PathSpecification<T> implements Specification<T> {
     
     protected String path;
 
+    public PathSpecification(){}
+
     public PathSpecification(String path) {
         this.path = path;
     }
-    
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @SuppressWarnings("unchecked")
     protected <F> Path<F> path(Root<T> root) {
         Path<?> expr = null;

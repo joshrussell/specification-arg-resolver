@@ -1,12 +1,12 @@
 /**
  * Copyright 2014-2016 the original author or authors.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,32 +29,36 @@ import java.util.List;
 
 /**
  * Helper for easier joining lists of specs with {@code OR} operator
- * 
+ *
  * @author Tomasz Kaczmarzyk
  */
 public class Disjunction<T> implements Specification<T> {
 
     private Collection<Specification<T>> innerSpecs;
 
-    public void addInnerSpecs(Specification<T> specification){
+    public void addInnerSpecs(Specification<T> specification) {
         this.innerSpecs.add(specification);
     }
 
-    public void removeInnerSpecs(Integer index){
+    public void removeInnerSpecs(Integer index) {
         List<Specification<T>> specificationList = new ArrayList<>(this.innerSpecs);
         Specification<T> specification = specificationList.get(index);
         this.innerSpecs.remove(specification);
+    }
+
+    public Disjunction() {
+
     }
 
     @SafeVarargs
     public Disjunction(Specification<T>... specs) {
         this(Arrays.asList(specs));
     }
-    
+
     public Disjunction(Collection<Specification<T>> innerSpecs) {
         this.innerSpecs = innerSpecs;
     }
-    
+
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         Specifications<T> combinedSpecs = null;
@@ -70,6 +74,10 @@ public class Disjunction<T> implements Specification<T> {
 
     public Collection<Specification<T>> getInnerSpecs() {
         return innerSpecs;
+    }
+
+    public void setInnerSpecs(Collection<Specification<T>> innerSpecs) {
+        this.innerSpecs = innerSpecs;
     }
 
     @Override

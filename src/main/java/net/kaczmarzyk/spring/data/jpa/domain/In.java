@@ -15,15 +15,10 @@
  */
 package net.kaczmarzyk.spring.data.jpa.domain;
 
-import java.util.Arrays;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import net.kaczmarzyk.spring.data.jpa.utils.Converter;
+
+import javax.persistence.criteria.*;
+import java.util.Arrays;
 
 
 /**
@@ -41,6 +36,24 @@ public class In<T> extends PathSpecification<T> {
 
 	private String[] allowedValues;
 	private Converter converter;
+
+	public In(){}
+
+	public String[] getAllowedValues() {
+		return allowedValues;
+	}
+
+	public void setAllowedValues(String[] allowedValues) {
+		this.allowedValues = allowedValues;
+	}
+
+	public Converter getConverter() {
+		return converter;
+	}
+
+	public void setConverter(Converter converter) {
+		this.converter = converter;
+	}
 
 	public In(String path, String[] httpParamValues) {
 		this(path, httpParamValues, null);

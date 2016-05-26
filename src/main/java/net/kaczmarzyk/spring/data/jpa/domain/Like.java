@@ -1,12 +1,12 @@
 /**
  * Copyright 2014-2016 the original author or authors.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,21 +15,23 @@
  */
 package net.kaczmarzyk.spring.data.jpa.domain;
 
-import java.util.Arrays;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 
 /**
  * Filters with {@code path like %pattern%} where-clause.
- * 
+ *
  * @author Tomasz Kaczmarzyk
  */
 public class Like<T> extends PathSpecification<T> {
 
     protected String pattern;
+
+    public Like() {
+    }
 
     public Like(String path, String... args) {
         super(path);
@@ -38,6 +40,14 @@ public class Like<T> extends PathSpecification<T> {
         } else {
             this.pattern = "%" + args[0] + "%";
         }
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
     @Override

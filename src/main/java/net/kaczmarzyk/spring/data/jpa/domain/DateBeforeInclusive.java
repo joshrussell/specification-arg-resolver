@@ -15,12 +15,12 @@
  */
 package net.kaczmarzyk.spring.data.jpa.domain;
 
-import java.text.ParseException;
-import java.util.Date;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * Filters with {@code path <= date} where-clause.
@@ -32,6 +32,8 @@ public class DateBeforeInclusive<T>
         extends DateSpecification<T> {
 
     private Date date;
+
+    public DateBeforeInclusive(){}
 
     public DateBeforeInclusive(String path, String... args)
             throws ParseException {
@@ -46,6 +48,14 @@ public class DateBeforeInclusive<T>
         }
         String dateStr = args[0];
         this.date = converter.convertToDate(dateStr);
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override
