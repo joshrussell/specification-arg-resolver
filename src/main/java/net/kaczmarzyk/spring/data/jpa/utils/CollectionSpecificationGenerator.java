@@ -3,20 +3,20 @@ package net.kaczmarzyk.spring.data.jpa.utils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CollectionSpecificationGenerator<P, C> {
 
-    final Class<P> parentClass;
+    private String collectionPropertyName;
 
-    final String collectionPropertyName;
+    public CollectionSpecificationGenerator() {
+    }
 
-    final Class<C> collectionClass;
-
-    public CollectionSpecificationGenerator(Class<P> parentClass, String collectionPropertyName, Class<C> collectionClass) {
-        this.parentClass = parentClass;
+    public CollectionSpecificationGenerator(String collectionPropertyName) {
         this.collectionPropertyName = collectionPropertyName;
-        this.collectionClass = collectionClass;
     }
 
     @SuppressWarnings("unchecked")
@@ -31,55 +31,79 @@ public class CollectionSpecificationGenerator<P, C> {
         return retVal.get(collectionPath);
     }
 
-    public Specification equal(final String propertyName, final String value) {
-        return new Specification() {
+    public Specification<P> equal(final String collectionClassString, final String propertyName, final String value) {
+        return new Specification<P>() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                 query.distinct(true);
-//                Root<P> parent = root;
-                Root<C> collection = query.from(collectionClass);
+                Root<C> collection = null;
+                try {
+                    collection = query.from(Class.forName(collectionClassString));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
                 return cb.and(cb.equal(getCollectionParentPath(collection, propertyName), value), cb.isMember(collection, collectionExpression));
             }
         };
     }
 
-    public Specification notEqual(final String propertyName, final String value) {
-        return new Specification() {
+    public Specification<P> notEqual(final String collectionClassString, final String propertyName, final String value) {
+        return new Specification<P>() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                 query.distinct(true);
-//                Root<P> parent = root;
-                Root<C> collection = query.from(collectionClass);
+                Root<C> collection = null;
+                try {
+                    collection = query.from(Class.forName(collectionClassString));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
                 return cb.and(cb.notEqual(getCollectionParentPath(collection, propertyName), value), cb.isMember(collection, collectionExpression));
             }
         };
     }
 
-    public Specification like(final String propertyName, final String value) {
-        return new Specification() {
+    public Specification<P> like(final String collectionClassString, final String propertyName, final String value) {
+        return new Specification<P>() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                 query.distinct(true);
-                Root<P> parent = root;
-                Root<C> collection = query.from(collectionClass);
+                Root<C> collection = null;
+                try {
+                    collection = query.from(Class.forName(collectionClassString));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
                 return cb.and(cb.like(getCollectionParentPath(collection, propertyName), value), cb.isMember(collection, collectionExpression));
             }
         };
     }
 
-    public Specification in(final String propertyName, final List<String> value) {
-        return new Specification() {
+    public Specification<P> in(final String collectionClassString, final String propertyName, final List<String> value) {
+        return new Specification<P>() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                 query.distinct(true);
-                Root<P> parent = root;
-                Root<C> collection = query.from(collectionClass);
+                Root<C> collection = null;
+                try {
+                    collection = query.from(Class.forName(collectionClassString));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Expression<Collection<C>> collectionExpression = getCollectionParentPath(root, collectionPropertyName);
                 return cb.and(getCollectionParentPath(collection, propertyName).in(value), cb.isMember(collection, collectionExpression));
             }
         };
+    }
+
+    public String getCollectionPropertyName() {
+        return collectionPropertyName;
+    }
+
+    public void setCollectionPropertyName(String collectionPropertyName) {
+        this.collectionPropertyName = collectionPropertyName;
     }
 }

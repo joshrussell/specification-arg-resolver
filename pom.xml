@@ -122,38 +122,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.10.b1</version>
-				<configuration>
-					<header>src/etc/license_header.txt</header>
-					<quiet>false</quiet>
-					<failIfMissing>true</failIfMissing>
-					<aggregate>false</aggregate>
-					<includes>
-						<include>src/main/java/**</include>
-						<include>src/test/java/**</include>
-					</includes>
-					<excludes>
-						<exclude>src/site</exclude>
-					</excludes>
-					<useDefaultExcludes>true</useDefaultExcludes>
-					<useDefaultMapping>true</useDefaultMapping>
-					<properties>
-						<year>${project.inceptionYear}-2016</year>
-					</properties>
-					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 		<extensions>
 			<extension>
@@ -268,14 +236,17 @@
 
 	<distributionManagement>
 		<repository>
-			<id>kaczmarzyk.net</id>
-			<name>kaczmarzyk.net repository</name>
-			<url>ftp://repo.kaczmarzyk.net</url>
+			<uniqueVersion>false</uniqueVersion>
+			<id>riptide-nexus</id>
+			<name>Internal Releases</name>
+			<url>http://nexus.riptidesoftware.com/repository/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>kaczmarzyk.net</id>
-			<name>kaczmarzyk.net repository</name>
-			<url>ftp://repo.kaczmarzyk.net</url>
+			<uniqueVersion>true</uniqueVersion>
+			<id>riptide-nexus</id>
+			<name>Internal Snapshots</name>
+			<url>http://nexus.riptidesoftware.com/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
+
 </project>

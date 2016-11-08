@@ -59,8 +59,8 @@ public class LikeE2eTest extends E2eTestBase {
                                                @And({
                                                        @Spec(path = "id", spec = IsNotNull.class)
                                                }) Specification<Customer> specification) {
-            CollectionSpecificationGenerator<Customer, Event> customerEventCollectionSpecificationGenerator = new CollectionSpecificationGenerator<>(Customer.class, "events", Event.class);
-            ((Conjunction<Customer>) specification).addInnerSpecs(customerEventCollectionSpecificationGenerator.like("name", eventName));
+            CollectionSpecificationGenerator<Customer, Event> customerEventCollectionSpecificationGenerator = new CollectionSpecificationGenerator<>("events");
+            ((Conjunction<Customer>) specification).addInnerSpecs(customerEventCollectionSpecificationGenerator.like(Event.class.getCanonicalName(), "name", eventName));
             return customerRepo.findAll(specification);
         }
     }
